@@ -63,6 +63,8 @@
 
 <script>
 import Menu from "./Menu.vue";
+import { bancoDados } from '../firebase/config.js'
+
 export default {
   components: {
     Menu,
@@ -71,7 +73,8 @@ export default {
   data: () => ({  
     dialog: false,
     cardId: null,
-    cards: [
+    cards: []
+    /*cards: [
       {
         id: "1",
         title: "Pudim Vegano Gostoso",
@@ -135,7 +138,23 @@ export default {
         usuario: "user.nome",
         id: "9",
       },
-    ],
+    ],*/
   }),
+  created() {
+    bancoDados.collection("receitas").get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        this.cards.push(
+          {
+            title: doc.data().titulo,
+            src: doc.data().img,
+            flex: 6,
+            usuario: doc.data().usuario,
+            id: doc.id
+          })
+      });
+    });
+  }
 };
 </script>

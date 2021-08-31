@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <!-- <Menu/> -->
-    <Feed/>
-
+     <Feed/>
+    <!--<ReceitaTeste/> -->
     <!-- <v-main>
       <router-view/>
     </v-main> -->
@@ -12,12 +12,14 @@
 <script>
 // import Menu from "./components/Menu.vue";
 import Feed from "./components/Feed.vue";
+//import ReceitaTeste from "./components/ReceitaTeste.vue";
 
 export default {
   name: 'App',
   components: {
     // Menu,
-    Feed
+    Feed,
+    //ReceitaTeste,
   },
   data: () => ({
     //

@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import 'firebase/firestore';
+import 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: "AIzaSyDkNFK33fPJeCLG0sJ8Z79sXc5wUuouyMM",
@@ -15,5 +16,7 @@ firebase.initializeApp(firebaseConfig);
 
 //init firestore service
 const bancoDados = firebase.firestore();
+const bancoStorage = firebase.storage();
 
-export { bancoDados };
+
+export { bancoDados, bancoStorage };
