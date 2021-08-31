@@ -1,5 +1,5 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore'
+import firebase from "firebase/app";
+import 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDkNFK33fPJeCLG0sJ8Z79sXc5wUuouyMM",
@@ -7,14 +7,13 @@ const firebaseConfig = {
   projectId: "vegan-way-16bda",
   storageBucket: "vegan-way-16bda.appspot.com",
   messagingSenderId: "3048133841",
-  appId: "1:3048133841:web:7f33a6efd8691c528421f0",
-  measurementId: "G-XWT8WRTVZX"
+  appId: "1:3048133841:web:7f33a6efd8691c528421f0"
 };
 
-//inicializa firebase
-firebase.initializeApp(firebaseConfig)
+//init firebase
+firebase.initializeApp(firebaseConfig);
 
-//inicializa serviço firestore
-const projectFirestore = firebase.firestore()
+//init firestore service
+const bancoDados = firebase.firestore();
 
-export { projectFirestore }
+export { bancoDados };
