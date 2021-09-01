@@ -214,7 +214,7 @@
 <script>
 import Menu from "./Menu.vue";
 // import { bancoDados } from "../firebase/config.js";
-import { bancoDados, bancoStorage } from "../firebase/config.js";
+import { bancoDados, bancoStorage, bancoAuth } from "../firebase/config.js";
 
 export default {
   components: {
@@ -313,7 +313,16 @@ export default {
     cadastrar() {
       this.dialogAddReceita = false;
       this.ingredientes = this.tempIngredientes.split("\n");
-      if (this.usuario === "") this.usuario = "VeganWay";
+
+      //pega nome de usuário no banco se estiver logado
+      if(bancoAuth.currentUser) {
+        bancoDados.collection("usuarios").doc(bancoAuth.currentUser.uid).get()
+        .then((doc) => { 
+          if (doc.exists) this.usuario = doc.data().nome
+        })
+      }
+
+      if (this.usuario === "") this.usuario = "Anônimo";
 
       //printa
       console.log(this.titulo);
