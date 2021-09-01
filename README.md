@@ -3,6 +3,7 @@
 ## Project setup
 ```
 npm install
+npm install firebase@8.1.0
 ```
 
 ### Compiles and hot-reloads for development
