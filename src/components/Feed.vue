@@ -437,6 +437,7 @@ export default {
            .catch((error) => { console.log(error)} )
         } else {
           this.logado = false
+          this.usuario = ""
         }
     });
   }
