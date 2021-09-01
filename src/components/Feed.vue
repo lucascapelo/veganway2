@@ -3,7 +3,7 @@
   <!-- // Formatar Documento shift+alt+f -->
   <div>
     <Menu />
-    <v-toolbar flat dark color="white">
+    <v-toolbar flat dark color="grey lighten-4">
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <!-- DIALOG DE ADC RECEITA -->
@@ -108,7 +108,9 @@
         </v-btn> -->
       </v-toolbar-items>
     </v-toolbar>
-    <v-container>
+
+    <v-card color="grey lighten-4">
+      <v-container>
       <v-row>
         <div class="cards"></div>
         <v-col
@@ -135,12 +137,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
 
-                <v-btn
-                  color="orange"
-                  text
-                  
-                  @click="abrirReceita(card)"
-                >
+                <v-btn color="orange" text @click="abrirReceita(card)">
                   ver receita
                   <v-icon>mdi-chevron-up</v-icon>
                 </v-btn>
@@ -152,15 +149,16 @@
         </v-col>
       </v-row>
     </v-container>
+    </v-card>
     <!-- ABRIR DIALOG DE RECEITA -->
     <v-row justify="center">
       <v-dialog
         v-model="dialogReceita"
-        fullscreen
+        max-width="500"
         hide-overlay
         transition="dialog-bottom-transition"
       >
-        <v-card>
+        <v-card max-width="500">
           <v-toolbar dark color="orange">
             <v-btn icon dark @click="dialogReceita = false">
               <v-icon>mdi-close</v-icon>
@@ -168,6 +166,45 @@
             <v-toolbar-title></v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
+          <v-img width="500" v-if="this.Cardfoto" :src="this.Cardfoto"></v-img>
+          <v-card-title>{{ this.Cardtitulo }}</v-card-title>
+          <v-card-subtitle> Por: {{ this.Cardusuario }}</v-card-subtitle>
+          <v-card-text>
+            <v-row align="center" class="mx-0">
+              <v-rating
+                :value="4.5"
+                color="amber"
+                dense
+                half-increments
+                readonly
+                size="14"
+              ></v-rating>
+
+              <div class="grey--text ms-4">4.5 (413)</div>
+            </v-row>
+            <!-- INFORMAÇÕES SOBRE A RECEITA -->
+            <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+              >
+                <v-card-title>Ingredientes:</v-card-title>
+                <ul>
+                  <li v-for="receitas in CardtempIngredientes" :key="receitas"> </li>
+                </ul>
+              </v-col>
+              
+              
+              <v-col cols="12">
+                <v-card-title>Modo de Preparo:</v-card-title>
+                <v-card-text>{{this.CardmodoPreparo}}</v-card-text>
+              </v-col>
+              
+              
+              
+            </v-row>
+          </v-container>
+          </v-card-text>
         </v-card>
       </v-dialog>
     </v-row>
@@ -199,6 +236,12 @@ export default {
     ingredientes: [],
     modoPreparo: "",
     selectedFile: null,
+    Cardtitulo: "",
+    Cardusuario: "",
+    Cardfoto: null,
+    Cardcategoria: "",
+    CardtempIngredientes: "",
+    CardmodoPreparo: "",
   }),
   created() {
     bancoDados
@@ -215,13 +258,14 @@ export default {
             id: doc.id,
             ingredientes: doc.data().ingredientes,
             texto: doc.data().texto,
-            categoria: doc.data().categoria
+            categoria: doc.data().categoria,
           });
         });
       });
   },
   methods: {
     abrirReceita(card) {
+      this.dialogReceita = true;
       console.log(card.id);
       console.log(card.usuario);
       console.log(card.src);
@@ -230,7 +274,13 @@ export default {
       console.log(card.title);
       console.log(card.ingredientes);
       this.cardId = card.id;
-      this.dialogReceita = true;
+
+      this.Cardtitulo = card.title;
+      this.Cardusuario = card.usuario;
+      this.Cardfoto = card.src;
+      this.Cardcategoria = card.categoria;
+      this.CardtempIngredientes = card.ingredientes;
+      this.CardmodoPreparo = card.texto;
     },
     getReceita() {
       bancoDados
