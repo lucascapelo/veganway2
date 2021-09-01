@@ -213,6 +213,9 @@ export default {
             flex: 6,
             usuario: doc.data().usuario,
             id: doc.id,
+            ingredientes: doc.data().ingredientes,
+            texto: doc.data().texto,
+            categoria: doc.data().categoria
           });
         });
       });
@@ -220,6 +223,12 @@ export default {
   methods: {
     abrirReceita(card) {
       console.log(card.id);
+      console.log(card.usuario);
+      console.log(card.src);
+      console.log(card.texto);
+      console.log(card.categoria);
+      console.log(card.title);
+      console.log(card.ingredientes);
       this.cardId = card.id;
       this.dialogReceita = true;
     },

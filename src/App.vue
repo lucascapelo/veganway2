@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <!-- <Menu/> -->
-     <Feed/>
+    <!--<Login/>-->
+    <Feed/>
     <!--<ReceitaTeste/> -->
     <!-- <v-main>
       <router-view/>
@@ -13,6 +14,7 @@
 // import Menu from "./components/Menu.vue";
 import Feed from "./components/Feed.vue";
 //import ReceitaTeste from "./components/ReceitaTeste.vue";
+//import Login from "./components/Login.vue";
 
 export default {
   name: 'App',
@@ -20,9 +22,10 @@ export default {
     // Menu,
     Feed,
     //ReceitaTeste,
+    //Login
   },
   data: () => ({
-    //
+
   }),
 };
 </script>

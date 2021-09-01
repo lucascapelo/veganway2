@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import 'firebase/firestore';
 import 'firebase/storage'
+import "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDkNFK33fPJeCLG0sJ8Z79sXc5wUuouyMM",
@@ -17,6 +18,7 @@ firebase.initializeApp(firebaseConfig);
 //init firestore service
 const bancoDados = firebase.firestore();
 const bancoStorage = firebase.storage();
+const bancoAuth = firebase.auth();
+//const bancoPersistance = firebase.auth.Auth.Persistence.LOCAL;
 
-
-export { bancoDados, bancoStorage };
+export { bancoDados, bancoStorage, bancoAuth };
