@@ -33,14 +33,14 @@
             <v-row align="center" justify="center" style="height: 300px;">
               <v-card class="ma-3 pa-6" outlined tile>
                 <v-form>
-                  <v-select
+                  <v-text-field
                     v-model="usuario"
                     :items="items"
                     :rules="[v => !!v || 'Item is required']"
                     prepend-inner-icon="mdi-account"
-                    label="Usuário"
+                    label="e-mail"
                     required
-                  ></v-select>
+                  ></v-text-field>
 
                   <v-spacer></v-spacer>
                   <v-text-field
@@ -48,13 +48,14 @@
                     :rules="senhaRules"
                     type="password"
                     prepend-inner-icon="mdi-lock"
-                    label="Senha"
+                    label="senha"
                     required
                   ></v-text-field>
                 </v-form>
                 <v-card-actions>
+                  <v-btn @click="dialogCadastro=true">cadastrar</v-btn>
                   <v-spacer></v-spacer>
-                  <v-btn @click="login">Login</v-btn>
+                  <v-btn @click="login" color="green lighten-4">Login</v-btn>
                   <v-spacer></v-spacer>
                 </v-card-actions>
               </v-card>
@@ -69,6 +70,61 @@
       top
       color="red"
     >Usuário ou senha incorretos</v-snackbar>
+  </v-dialog>
+
+
+  <!-- DIALOG CADASTRO -->
+  <v-dialog v-model="dialogCadastro">
+    <v-card color="green lighten-4" >
+      <v-container>
+        <v-row>
+          
+          <v-col cols="12">
+            <v-row align="center" justify="center" style="height: 300px;">
+              <v-card class="ma-3 pa-6" outlined tile>
+                <v-form>
+                  <v-text-field
+                    v-model="usuario"
+                    :items="items"
+                    :rules="[v => !!v || 'Item is required']"
+                    prepend-inner-icon="mdi-account"
+                    label="usuário"
+                    required
+                  ></v-text-field>
+
+                  <v-spacer></v-spacer>
+
+                  <v-text-field
+                    v-model="usuario"
+                    :items="items"
+                    :rules="[v => !!v || 'Item is required']"
+                    prepend-inner-icon="mdi-email-multiple"
+                    label="e-mail"
+                    required
+                  ></v-text-field>
+
+                  <v-spacer></v-spacer>
+
+                  <v-text-field
+                    v-model="senha"
+                    :rules="senhaRules"
+                    type="password"
+                    prepend-inner-icon="mdi-lock"
+                    label="senha"
+                    required
+                  ></v-text-field>
+                </v-form>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn @click="dialogCadastro=true">cadastrar</v-btn>
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+              </v-card>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
   </v-dialog>
 </div>
 </template>
