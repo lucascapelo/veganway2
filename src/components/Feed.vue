@@ -199,8 +199,19 @@
                 <v-card-title>Modo de Preparo:</v-card-title>
                 <v-card-text>{{this.CardmodoPreparo}}</v-card-text>
               </v-col>
-              
-              
+
+              <v-col cols="12">
+                <div style="margin-bottom: 20px"><h3>Comentários</h3></div>
+                <div style="margin-bottom: 10px" v-for="comment in comentarios" :key="comment">
+                  <h4>{{ comment.usuario }}</h4>
+                  <p>{{ comment.texto }}</p>
+                </div>
+              </v-col>
+
+              <v-col cols="12">
+                <v-textarea label="O que você achou dessa receita?" outlined v-model="comentario"></v-textarea>
+                <v-btn @click="comentar">comentar</v-btn>
+              </v-col>                         
               
             </v-row>
           </v-container>
@@ -226,6 +237,8 @@ export default {
     dialogReceita: false,
     cardId: null,
     cards: [],
+    comentarios: [],
+    comentario: "",
 
     //intes da receita
     titulo: "",
@@ -266,6 +279,8 @@ export default {
   methods: {
     abrirReceita(card) {
       this.dialogReceita = true;
+
+      //printa
       console.log(card.id);
       console.log(card.usuario);
       console.log(card.src);
@@ -273,20 +288,31 @@ export default {
       console.log(card.categoria);
       console.log(card.title);
       console.log(card.ingredientes);
+      
+      //salva
       this.cardId = card.id;
-
       this.Cardtitulo = card.title;
       this.Cardusuario = card.usuario;
       this.Cardfoto = card.src;
       this.Cardcategoria = card.categoria;
       this.CardtempIngredientes = card.ingredientes;
       this.CardmodoPreparo = card.texto;
+
+      //carrega os comentários
+      this.comentarios = []
+      bancoDados.collection("comentarios").where("receita", "==", this.cardId)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, "=>", doc.data())
+          this.comentarios.push( { id: doc.id, receita: doc.data().receita, usuario: doc.data().usuario, texto: doc.data().texto } )
+          console.log(this.comentarios)
+        });
+      })
+      .catch((error) => console.log(error));
     },
     getReceita() {
-      bancoDados
-        .collection("receitas")
-        .doc("ao2TaSCKc7BrhZExpqMR")
-        .get()
+      bancoDados.collection("receitas").doc("ao2TaSCKc7BrhZExpqMR").get()
         .then((doc) => {
           if (doc.exists) {
             console.log("Document data:", doc.data());
@@ -300,9 +326,7 @@ export default {
         });
     },
     getAllReceitas() {
-      bancoDados
-        .collection("receitas")
-        .get()
+      bancoDados.collection("receitas").get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
@@ -358,6 +382,33 @@ export default {
       .catch((error) => { console.log(error)});
       console.log("Adicionado com sucesso");
     },
+    comentar() {
+      if (this.usuario === "") this.usuario = "Anônimo"
+
+      //pega nome de usuário no banco se estiver logado
+      if(bancoAuth.currentUser) {
+        bancoDados.collection("usuarios").doc(bancoAuth.currentUser.uid).get()
+        .then((doc) => { 
+          if (doc.exists) this.usuario = doc.data().nome
+        })
+      }
+
+      bancoDados.collection("comentarios").add({
+        receita: this.cardId,
+        usuario: this.usuario,
+        texto: this.comentario
+      })
+      .then((docRef) => {
+        this.comentarios.push({
+          id: docRef.id,
+          receita: this.cardId,
+          usuario: this.usuario,
+          texto: this.comentario
+        });
+        this.comentario = ""
+      })
+      .catch((error) => { console.log(error) })
+    },
     onFileSelected(event) {
       const self = this;
       this.selectedFile = event.target.files[0];
@@ -375,5 +426,19 @@ export default {
       console.log("arquivo selecionado");
     },
   },
+  mounted() {
+    //detecta se ta logado
+    bancoAuth.onAuthStateChanged(user => {
+        if (user) {
+           console.log("ta logado"+user)
+           this.logado = true
+           bancoDados.collection("usuarios").doc(user.uid).get()
+           .then((doc) => { this.usuario = doc.data().nome })
+           .catch((error) => { console.log(error)} )
+        } else {
+          this.logado = false
+        }
+    });
+  }
 };
 </script>

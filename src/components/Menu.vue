@@ -92,7 +92,7 @@
                     :items="items"
                     :rules="[v => !!v || 'Item is required']"
                     prepend-inner-icon="mdi-account"
-                    label="usuário"
+                    label="nome"
                     required
                   ></v-text-field>
 
