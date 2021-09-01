@@ -19,7 +19,7 @@
       </v-list-item>
 
       <v-divider></v-divider>
-
+      <v-card light>
       <v-list
         dense
         nav
@@ -30,7 +30,7 @@
           link
         >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon color="grey">{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -38,6 +38,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      </v-card>
     </v-navigation-drawer>
   
 </template>
