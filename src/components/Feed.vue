@@ -190,7 +190,7 @@
               >
                 <v-card-title>Ingredientes:</v-card-title>
                 <ul>
-                  <li v-for="receitas in CardtempIngredientes" :key="receitas"> </li>
+                  <li v-for="receitas in CardtempIngredientes" :key="receitas"> {{receitas}} </li>
                 </ul>
               </v-col>
               
@@ -331,9 +331,23 @@ export default {
         categoria: this.categoria,
         ingredientes: this.ingredientes,
         img: this.foto,
-      });
+      })
+      .then((docRef) => {
+        //adiciona no card
+        this.cards.push({
+        title: this.titulo,
+        src: this.foto,
+        flex: 6,
+        usuario: this.usuario,
+        id: docRef.id,
+        ingredientes: this.ingredientes,
+        texto: this.modoPreparo,
+        categoria: this.categoria
+        });
+        console.log("docRef: "+docRef.id);
+      })
+      .catch((error) => { console.log(error)});
       console.log("Adicionado com sucesso");
-      this.$refs.form.reset();
     },
     onFileSelected(event) {
       const self = this;
